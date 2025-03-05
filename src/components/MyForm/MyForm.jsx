@@ -22,13 +22,9 @@ const MyForm = () =>{
 
     const addTask = (receivedTask) => {
 
-        const newTask = {
-            state: "pending",
-            description: receivedTask,
-        };
-
-        localStorage.setItem(taskNumber, JSON.stringify(newTask))
-        console.log("task written " + JSON.stringify(newTask))
+        const existingTasks = JSON.parse(localStorage.getItem("pending")) || [];
+        existingTasks.push(receivedTask);
+        localStorage.setItem("pending", JSON.stringify(existingTasks));
     }
     
     return(
