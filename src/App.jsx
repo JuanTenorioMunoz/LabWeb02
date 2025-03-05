@@ -1,11 +1,12 @@
 import './App.css'
-import { MyForm } from './components'
+import { MyForm, TasksContainer } from './components'
 
 function App() {
 
   return (
     <>
       <MyForm></MyForm>
+      <TasksContainer status={"pending"}></TasksContainer>
     </>
   )
 }
