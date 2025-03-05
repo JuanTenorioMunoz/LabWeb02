@@ -4,23 +4,21 @@ const MyForm = () =>{
     
     const handleSubmit = (event) => {
 		event.preventDefault();
+        setTask("");
 	};
 
-    const addTask = () => {
-        setTask((namer)=> namer = input.value)
-        console.log(task)
-        console.log("egge")
+    const addTask = (event) => {
+        setTask(event.target.value);
+        console.log(newTask);
     }
 
-    const [task, setTask] = useState("")
+    const [newTask, setTask] = useState("")
     
-
-
     return(
 
         <form className="form-container" onSubmit={handleSubmit}>
-            <input></input>
-            <button type="submit" onSubmit={addTask}>sumbbbbit</button>
+            <input type="text" onChange={addTask} value={newTask}></input>
+            <button type="submit">sumbbbbit</button>
         </form>
     )
 }
