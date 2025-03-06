@@ -2,23 +2,19 @@ import { useEffect, useState } from "react"
 
 const TasksContainer = ({status}) => {
 
-    const [taskCount, setTaskCount] = useState(0)
+    const [tasks, setTasks] = useState([]);
 
     useEffect(()=> {
-        Object.keys(localStorage).forEach(key => {
-            console.log(key + localStorage.getItem(key))
-        });
-
-    },[taskCount])
-
-    
+        const parsedStatus = JSON.parse(localStorage.getItem(status))
+        console.log("rendering:" + parsedStatus)
+        setTasks(parsedStatus);
+    },[])
 
     return(
         <div className={status + "-TasksContainer"}>
         </div>
     )
 
-    //localStorageRendering()
 }   
 
 export default TasksContainer
