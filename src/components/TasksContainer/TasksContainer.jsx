@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
+import TaskCard from "../TaskCard/TaskCard";
 
-const TasksContainer = ({ status, trigger }) => {
-  const [tasks, setTasks] = useState([]);
+const TasksContainer = ({ status, onTaskChange }) => {
+    const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {
-    const parsedStatus = JSON.parse(localStorage.getItem(status)) || [];
-    console.log("Rendering:", parsedStatus);
-    setTasks(parsedStatus);
-  }, [trigger]); 
-
-  return (
-    <div className={status + "-TasksContainer"}>
-      {tasks.map((task, index) => (
-        <p key={index}>{task}</p>
-      ))}
-    </div>
-  );
+    useEffect(() => {
+        const parsedTasks = JSON.parse(localStorage.getItem(status)) || [];
+        setTasks(parsedTasks);
+    }, [status, onTaskChange]);  
+    
+    return (
+        <div className={status + "-TasksContainer"}>
+            <h1>{status}</h1>
+            {tasks.map((task, index) => (
+                <TaskCard key={index} status={status} description={task} onUpdate={onTaskChange} />
+            ))}
+        </div>
+    );
 };
 
 export default TasksContainer;
+
