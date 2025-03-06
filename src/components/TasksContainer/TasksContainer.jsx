@@ -1,20 +1,21 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-const TasksContainer = ({status}) => {
+const TasksContainer = ({ status, trigger }) => {
+  const [tasks, setTasks] = useState([]);
 
-    const [tasks, setTasks] = useState([]);
+  useEffect(() => {
+    const parsedStatus = JSON.parse(localStorage.getItem(status)) || [];
+    console.log("Rendering:", parsedStatus);
+    setTasks(parsedStatus);
+  }, [trigger]); 
 
-    useEffect(()=> {
-        const parsedStatus = JSON.parse(localStorage.getItem(status))
-        console.log("rendering:" + parsedStatus)
-        setTasks(parsedStatus);
-    },[])
+  return (
+    <div className={status + "-TasksContainer"}>
+      {tasks.map((task, index) => (
+        <p key={index}>{task}</p>
+      ))}
+    </div>
+  );
+};
 
-    return(
-        <div className={status + "-TasksContainer"}>
-        </div>
-    )
-
-}   
-
-export default TasksContainer
+export default TasksContainer;
