@@ -1,24 +1,51 @@
 import './App.css';
 import { MyForm, TasksContainer } from './components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
-    const [updateTrigger, setUpdateTrigger] = useState(0);
+    const [tasks, setTasks] = useState({
+        pending: JSON.parse(localStorage.getItem("pending")) || [],
+        doing: JSON.parse(localStorage.getItem("doing")) || [],
+        completed: JSON.parse(localStorage.getItem("completed")) || []
+    });
 
-    const refreshTasks = () => {
-        setUpdateTrigger(prev => prev + 1);
+    useEffect(() => {
+        localStorage.setItem("pending", JSON.stringify(tasks.pending));
+        localStorage.setItem("doing", JSON.stringify(tasks.doing));
+        localStorage.setItem("completed", JSON.stringify(tasks.completed));
+    }, [tasks]);
+
+    const addTask = (task) => {
+        console.log("Task received:", task); // ✅ Check what task is received
+        if (!task || task.trim() === "") return;
+    
+        setTasks(prev => {
+            console.log("Updated pending tasks:", [...prev.pending, task]); // ✅ Check tasks before setting state
+            return {
+                ...prev,
+                pending: [...prev.pending, task]
+            };
+        });
     };
+    
+    const updateTask = (status, updateFunction) => {
+        setTasks(prev => ({
+            ...prev,
+            [status]: typeof updateFunction === "function" ? updateFunction(prev[status]) : updateFunction
+        }));
+    };
+    
 
     return (
         <>
-            <MyForm onTaskAdded={refreshTasks} />
-            <TasksContainer key={`pending-${updateTrigger}`} status="pending" onTaskChange={refreshTasks} />
-            <TasksContainer key={`doing-${updateTrigger}`} status="doing" onTaskChange={refreshTasks} />
-            <TasksContainer key={`completed-${updateTrigger}`} status="completed" onTaskChange={refreshTasks} />
+            <MyForm onTaskAdded={addTask} />
+            <div id='containerColumns'>
+            <TasksContainer status="pending" tasks={tasks.pending} updateTask={updateTask} />
+            <TasksContainer status="doing" tasks={tasks.doing} updateTask={updateTask} />
+            <TasksContainer status="completed" tasks={tasks.completed} updateTask={updateTask} />
+            </div>
         </>
     );
 }
 
 export default App;
-
-

@@ -5,20 +5,13 @@ const MyForm = ({ onTaskAdded }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addTask(newTask);
-        setTask("");
 
-        onTaskAdded();
+        onTaskAdded(newTask); 
+        setTask(""); 
     };
 
     const writeTask = (event) => {
         setTask(event.target.value);
-    };
-
-    const addTask = (receivedTask) => {
-        const existingTasks = JSON.parse(localStorage.getItem("pending")) || [];
-        existingTasks.push(receivedTask);
-        localStorage.setItem("pending", JSON.stringify(existingTasks));
     };
 
     return (
