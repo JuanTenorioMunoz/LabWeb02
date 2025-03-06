@@ -15,12 +15,8 @@ function App() {
         localStorage.setItem("completed", JSON.stringify(tasks.completed));
     }, [tasks]);
 
-    const addTask = (task) => {
-        console.log("Task received:", task); 
-        if (!task || task.trim() === "") return;
-    
+    const addTask = (task) => {    
         setTasks(prev => {
-            console.log("Updated pending tasks:", [...prev.pending, task]);
             return {
                 ...prev,
                 pending: [...prev.pending, task]
@@ -34,7 +30,6 @@ function App() {
             [status]: typeof updateFunction === "function" ? updateFunction(prev[status]) : updateFunction
         }));
     };
-    
 
     return (
         <>
