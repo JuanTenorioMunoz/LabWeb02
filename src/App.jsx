@@ -16,11 +16,11 @@ function App() {
     }, [tasks]);
 
     const addTask = (task) => {
-        console.log("Task received:", task); // ✅ Check what task is received
+        console.log("Task received:", task); 
         if (!task || task.trim() === "") return;
     
         setTasks(prev => {
-            console.log("Updated pending tasks:", [...prev.pending, task]); // ✅ Check tasks before setting state
+            console.log("Updated pending tasks:", [...prev.pending, task]);
             return {
                 ...prev,
                 pending: [...prev.pending, task]
